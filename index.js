@@ -71,12 +71,22 @@ const generateId = () => {
             : 0
 }
 
+const isNameInDB = (newName) => {
+    return persons.some(person => person.name.toLowerCase() == newName.toLowerCase())
+}
+
 app.post('/api/persons/', (request, response) => {
     const body = request.body
 
-    if (!body.name) {
+    if (!body.name || !body.number) {
         return response.status(400).json({ 
             error: 'content missing' 
+        })
+    }
+
+    if (isNameInDB(body.name)) {
+        return response.status(400).json({ 
+            error: 'name must be unique' 
         })
     }
 
