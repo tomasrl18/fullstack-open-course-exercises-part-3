@@ -26,8 +26,25 @@ let persons = [
     }
 ]
 
+const getTotalPersons = () => {
+    return persons.length;
+}
+
+const getDate = () => {
+    return new Date()
+}
+
 app.get('/api/persons', (request, response) => {
     response.json(persons)
+})
+
+app.get('/api/info', (request, response) => {
+    response.send(
+        `
+            <p>Phonebook has info for ${getTotalPersons()} people</p>
+            <p>${getDate()}</p>
+        `
+    )
 })
 
 const PORT = 3001
