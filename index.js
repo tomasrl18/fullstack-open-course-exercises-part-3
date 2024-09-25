@@ -66,11 +66,11 @@ app.delete('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons/', (request, response) => {
     const body = request.body
   
-    if (body.name === undefined) {
+    if (!body.name) {
       return response.status(400).json({ error: 'name missing' })
     }
 
-    if (body.number === undefined) {
+    if (!body.number) {
         return response.status(400).json({ error: 'number missing' })
     }
   
