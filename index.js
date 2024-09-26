@@ -1,17 +1,10 @@
-require('dotenv').config()
 const express = require('express')
-const morgan = require('morgan')
-const cors = require('cors')
+const app = express()
+require('dotenv').config()
+
 const Person = require('./models/person')
 
-const app = express()
-
-app.use(cors())
 app.use(express.static('dist'))
-app.use(express.json())
-
-morgan.token('body', (req) => JSON.stringify(req.body))
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 const requestLogger = (request, response, next) => {
     console.log('Method:', request.method)
@@ -21,6 +14,13 @@ const requestLogger = (request, response, next) => {
     next()
 }
 
+const morgan = require('morgan')
+const cors = require('cors')
+
+morgan.token('body', (req) => JSON.stringify(req.body))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+app.use(cors())
+app.use(express.json())
 app.use(requestLogger)
 
 const getDate = () => {
